@@ -1,32 +1,3 @@
-# DEX AMM — FINAL SUBMISSION DOCUMENT
-
-This document contains the complete implementation details, setup instructions,
-Docker configuration, and documentation required for submitting the DEX AMM project.
-
-======================================================================
-
-## 1. Repository Structure
-```
-dex-amm/
-├── contracts/
-│   ├── DEX.sol
-│   └── MockERC20.sol
-├── test/
-│   └── DEX.test.js
-├── scripts/
-│   └── deploy.js
-├── Dockerfile
-├── docker-compose.yml
-├── .dockerignore
-├── .gitignore
-├── hardhat.config.js
-├── package.json
-└── README.md
-```
-
-======================================================================
-
-## 2. README.md (FINAL)
 
 # DEX AMM Project
 
@@ -51,7 +22,25 @@ a complete automated test suite and Dockerized execution support.
 - Full test coverage (≥ 80%, achieved 100%)
 
 ---
-
+## Repository Structure
+```
+dex-amm/
+├── contracts/
+│   ├── DEX.sol
+│   └── MockERC20.sol
+├── test/
+│   └── DEX.test.js
+├── scripts/
+│   └── deploy.js
+├── Dockerfile
+├── docker-compose.yml
+├── .dockerignore
+├── .gitignore
+├── hardhat.config.js
+├── package.json
+└── README.md
+```
+---------------------------------------------------------------------------------------------
 ## Architecture
 The system consists of the following components:
 
