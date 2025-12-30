@@ -269,23 +269,7 @@ git push origin main
 
 ======================================================================
 
-## 6. Viva / Interview Short Answers
-
-**What is an AMM?**  
-A decentralized exchange model that uses a mathematical formula instead of order books.
-
-**How is price calculated?**  
-Using the constant product invariant `x * y = k`.
-
-**Why do LPs earn fees?**  
-Fees remain in the pool, increasing reserve value and LP share worth.
-
-**Why branch coverage is not 100%?**  
-Some revert paths are intentionally unreachable in valid execution.
-
-======================================================================
-
-## 7. Final Verification Commands
+## 6. Final Verification Commands
 
 ```bash
 docker-compose up -d
