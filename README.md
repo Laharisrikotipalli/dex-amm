@@ -162,24 +162,7 @@ git push -u origin main
 
 ---
 
-## 11. Viva / Interview Ready Answers
-
-**What is an AMM?**  
-A decentralized exchange model that uses a mathematical formula instead of
-order books.
-
-**How is price calculated?**  
-Using the constant product invariant `x * y = k`.
-
-**Why do LPs earn fees?**  
-Fees remain in the pool, increasing reserve value and LP share worth.
-
-**Why branch coverage is not 100%?**  
-Some revert paths are intentionally unreachable in valid execution.
-
----
-
-## 12. Conclusion
+## 11. Conclusion
 This project demonstrates a complete and well-tested implementation of a basic
 AMM-based decentralized exchange with correct logic, clean architecture, and
 full test coverage.
