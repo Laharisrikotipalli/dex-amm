@@ -6,7 +6,7 @@ Docker configuration, and documentation required for submitting the DEX AMM proj
 ======================================================================
 
 ## 1. Repository Structure
-
+```
 dex-amm/
 ├── contracts/
 │   ├── DEX.sol
@@ -22,6 +22,7 @@ dex-amm/
 ├── hardhat.config.js
 ├── package.json
 └── README.md
+```
 
 ======================================================================
 
@@ -305,15 +306,3 @@ docker-compose exec app npm run coverage
 docker-compose down
 ```
 
-======================================================================
-
-## FINAL STATUS
-
-✔ All required files included  
-✔ Docker working  
-✔ Tests passing  
-✔ Coverage ≥ 80% (100%)  
-✔ README complete  
-✔ Ready for submission
-
-======================================================================
