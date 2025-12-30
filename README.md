@@ -39,3 +39,13 @@ remaining 0.3% stays in the pool, increasing the value of LP shares.
 
 ### LP Token Minting
 - First liquidity provider:
+- ## Docker (Optional)
+
+This project does not require Docker to run.
+
+All development, testing, and coverage analysis were performed locally
+using Hardhat and Node.js.
+
+Docker can optionally be added in the future to containerize the Hardhat
+environment for consistent execution across systems.
+
