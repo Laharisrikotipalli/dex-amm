@@ -1,152 +1,220 @@
-This is a clean, professionally formatted `README.md` for your DEX AMM project. It uses structured Markdown, clear hierarchy, and LaTeX for the mathematical formulas to ensure it looks great on GitHub.
-
-```markdown
 # DEX AMM Project
 
 ## Overview
-This project implements a **Decentralized Exchange (DEX)** utilizing an **Automated Market Maker (AMM)** model. The platform enables users to participate in decentralized finance by providing liquidity and performing permissionless token swaps.
+This project implements a **Decentralized Exchange (DEX)** using an  
+**Automated Market Maker (AMM)** model.
 
-The DEX supports:
-* **Adding Liquidity:** Users provide token pairs to earn fees.
-* **Removing Liquidity:** Users withdraw their proportional share of the pool.
-* **Token Swaps:** Instant exchange between two ERC-20 tokens.
+The DEX allows users to:
+- Add liquidity
+- Remove liquidity
+- Swap between two ERC-20 tokens
 
-All swaps are governed by the **Constant Product Pricing Formula**, ensuring continuous liquidity regardless of trade size.
+All swaps follow the **constant product pricing formula**.
+
+The implementation is written in **Solidity** and tested using **Hardhat**, with
+a complete automated test suite and **Dockerized execution support**.
 
 ---
 
 ## Features
-* **Initial & Subsequent Liquidity:** Optimized logic for pool initialization and fair share distribution for later providers.
-* **Constant Product AMM:** Implements the $x \cdot y = k$ invariant.
-* **0.3% Trading Fee:** Automated fee collection to incentivize liquidity providers.
-* **Internal LP Accounting:** Efficient tracking of provider shares via internal mappings (gas-optimized).
-* **Automated Testing:** 100% test coverage for core logic and edge cases.
-* **Dockerized Environment:** Fully containerized setup for consistent development and testing.
+- Initial and subsequent liquidity provision
+- Liquidity removal with proportional share calculation
+- Token swaps using constant product formula (`x * y = k`)
+- **0.3% trading fee** for liquidity providers
+- Internal liquidity (LP) accounting (no separate LP token)
+- Event emission for liquidity and swap actions
+- **100% test coverage** (statements, functions, and lines)
 
 ---
 
 ## Architecture
-The system is built with modularity and security in mind:
+The system consists of the following components:
 
-### Core Components
-* **`DEX.sol`**: The heart of the protocol. It manages reserves, calculates swap prices, handles fee accumulation, and tracks LP ownership.
-* **`MockERC20.sol`**: A standardized ERC-20 implementation used for rigorous testing of swap and transfer functionalities.
+### DEX.sol
+- Core smart contract
+- Manages liquidity pools
+- Executes swaps
+- Tracks reserves and fees
+- Implements AMM logic
 
+### MockERC20.sol
+- Mock ERC-20 token
+- Used only for testing
+- Simulates real token behavior
 
+Liquidity provider balances are tracked internally using a `mapping`
+instead of minting a separate LP token contract.
 
 ---
 
 ## Mathematical Implementation
 
-### 1. Constant Product Formula
-The DEX maintains the invariant $k$ to determine the price of assets:
-$$x \cdot y = k$$
+### Constant Product Formula
+The AMM follows the invariant:
+
+```text
+x * y = k
+````
 Where:
-* $x$: Reserve of Token A
-* $y$: Reserve of Token B
-* $k$: The invariant product that must remain constant (increasing only via fees).
 
-### 2. Fee Mechanism
-A **0.3% fee** is applied to every swap. When a user swaps an input amount ($\Delta x$):
-1.  $99.7\%$ of the input is used to calculate the output $(\Delta y)$.
-2.  $0.3\%$ remains in the pool, effectively increasing $k$ for all LPs.
+x = reserve of token A
 
-### 3. Liquidity (LP) Minting Logic
-To ensure fair ownership, the amount of liquidity shares minted is calculated as follows:
+y = reserve of token B
 
-**First Liquidity Provider:**
-$$L = \sqrt{amount_A \cdot amount_B}$$
+k = constant value that should not decrease
 
-**Subsequent Providers:**
-$$L = \min\left( \frac{amount_A \cdot T}{R_A}, \frac{amount_B \cdot T}{R_B} \right)$$
-Where:
-* $T$: Total existing liquidity shares.
-* $R_A, R_B$: Current reserves of Token A and B.
+This invariant determines swap pricing and ensures pool balance.
 
----
+----
 
-## Setup Instructions
+### Fee Calculation
 
-### Local Environment
-**Prerequisites:** Node.js (v16+), npm, Git.
+A 0.3% fee is applied to every swap.
 
-1. **Clone & Install:**
-   ```bash
-   git clone [https://github.com/Laharisrikotipalli/dex-amm.git](https://github.com/Laharisrikotipalli/dex-amm.git)
-   cd dex-amm
-   npm install
+99.7% of the input amount is used for price calculation
 
+0.3% remains in the pool
+
+This mechanism increases the value of liquidity provider shares over time.
+
+------
+### Liquidity (LP) Minting Logic
+#### First Liquidity Provider
 ```
+liquidityMinted = sqrt(amountA * amountB)
+```
+#### Subsequent Liquidity Providers
+```
+liquidityMinted = min(
+  (amountA * totalLiquidity) / reserveA,
+  (amountB * totalLiquidity) / reserveB
+)
+```
+This ensures fair and proportional ownership of the pool.
 
-2. **Compile Contracts:**
-```bash
+----
+### Setup Instructions (Local)
+#### Prerequisites
+
+Node.js (v16 or above)
+
+npm
+
+Git
+
+----
+### Installation
+```
+git clone https://github.com/Laharisrikotipalli/dex-amm.git
+cd dex-amm
+npm install
+```
+#### Compile Contracts
+```
 npm run compile
-
 ```
 
-
-3. **Run Tests & Coverage:**
-```bash
+#### Run Tests
+```
 npm test
-npm run coverage
-
 ```
 
+#### Run Coverage
+```
+npm run coverage
+```
+----
+### Setup Instructions (Docker)
+#### Prerequisites
 
+Docker
 
-### Docker Execution
+Docker Compose
 
-**Prerequisites:** Docker, Docker Compose.
+#### Build and Start Containers
+```
+docker-compose up -d
+```
 
-1. **Start Containers:** `docker-compose up -d`
-2. **Test via Docker:** ```bash
+#### Compile Contracts (Docker)
+```
+docker-compose exec app npm run compile
+```
+#### Run Tests (Docker)
+```
 docker-compose exec app npm test
 ```
 
-
+#### Run Coverage (Docker)
 ```
+docker-compose exec app npm run coverage
+```
+#### Stop Containers
+```
+docker-compose down
+```
+----
 
+### Test Coverage
 
+The project includes a comprehensive test suite covering:
+
+Liquidity management
+
+Token swaps
+
+Fee accumulation
+
+Edge cases
+
+Event emission
+
+----
+
+### Coverage Summary
+
+Statements: 100%
+
+Functions: 100%
+
+Lines: 100%
+
+Branches: ~78% (revert paths intentionally excluded)
+
+----
+### Contract Addresses
+
+This project was tested locally using the Hardhat network.
+
+No contracts have been deployed to a public testnet or mainnet.
+
+#### Deployment can be performed using:
+```
+npx hardhat run scripts/deploy.js
+```
+---
+### Security Considerations
+
+Solidity ^0.8.x built-in overflow and underflow protection
+
+Input validation for zero values
+
+Protection against removing more liquidity than owned
+
+Swap amount validation
+
+Reentrancy-safe state update pattern
 
 ---
-
-## Test Coverage
-
-The project maintains a **100% coverage** rate for critical paths:
-
-| Category | Coverage |
-| --- | --- |
-| **Statements** | 100% |
-| **Functions** | 100% |
-| **Lines** | 100% |
-| **Branches** | ~78% (Excluding intentional revert paths) |
-
----
-
-## Security & Limitations
-
-### Security Measures
-
-* **Solidity ^0.8.x**: Native protection against overflow/underflow.
-* **Input Validation**: Strict checks for zero-value transfers and insufficient balances.
-* **State Integrity**: State updates follow the Checks-Effects-Interactions pattern where applicable.
 
 ### Known Limitations
 
-* Supports a **single token pair** per deployment.
-* No **Slippage Protection** (Users cannot set a minimum output amount).
-* No **Deadline Parameter** (Transactions do not expire).
-* Lacks an external **Price Oracle** (Price is purely market-driven within the pool).
+Supports only a single token pair
 
----
+No slippage protection
 
-## Deployment
+No deadline parameter for swaps
 
-Currently, the project is configured for local development. To deploy to a network:
+No external price oracle
 
-1. Update `hardhat.config.js` with your provider URL and private key.
-2. Run:
-```bash
-npx hardhat run scripts/deploy.js --network <network_name>
-
-```
+No governance or upgrade mechanism
